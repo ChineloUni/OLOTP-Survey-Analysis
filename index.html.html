@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OLOTP Parish — Strategic Leadership Presentation 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --navy: #1B3057;
+  --gold: #C9963E;
+  --gold2: #F0D08A;
+  --cream: #FAF7F2;
+  --sage: #4A7C59;
+  --rose: #8B3A52;
+  --slate: #4A5568;
+  --light: #EEF1F5;
+  --white: #FFFFFF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; }
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(27,48,87,0.97); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 56px;
+}
+.nav-brand { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--gold2); font-weight: 600; letter-spacing: 0.02em; }
+.nav-links { display: flex; gap: 0; }
+.nav-links a {
+  color: rgba(255,255,255,0.7); text-decoration: none; font-size: 12px;
+  font-weight: 500; padding: 0 14px; height: 56px; display: flex; align-items: center;
+  border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.nav-links a:hover { color: var(--gold2); border-bottom-color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--navy) 0%, #2D4F82 50%, #1B3057 100%);
+  position: relative; overflow: hidden; padding: 80px 2rem 4rem;
+}
+.hero::before {
+  content: '✝'; position: absolute; font-size: 600px; color: rgba(255,255,255,0.02);
+  top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; font-family: serif;
+}
+.hero-cross {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(201,150,62,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(201,150,62,0.05) 0%, transparent 50%);
+}
+.hero-inner { position: relative; z-index: 1; text-align: center; max-width: 860px; }
+.hero-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 64px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 16px; }
+.hero h1 span { color: var(--gold2); }
+.hero-sub { font-size: clamp(14px, 2vw, 18px); color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto 40px; font-weight: 300; }
+.hero-locations { font-size: 12px; color: rgba(240,208,138,0.75); letter-spacing: 0.06em; margin-bottom: 22px; font-weight: 500; }
+.hero-divider { width: 60px; height: 2px; background: var(--gold); margin: 0 auto 40px; }
+
+/* KPI ROW */
+.kpi-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.kpi {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(201,150,62,0.25);
+  border-radius: 12px; padding: 20px 24px; text-align: center; min-width: 130px; backdrop-filter: blur(4px);
+}
+.kpi-val { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--gold2); line-height: 1; }
+.kpi-lbl { font-size: 10px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px; font-weight: 500; }
+
+.hero-date { margin-top: 40px; font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.08em; }
+
+.scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.3); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.scroll-hint::after { content: '▼'; animation: bounce 2s infinite; display: block; }
+@keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(6px)} }
+
+/* ── SECTIONS ── */
+.section { padding: 80px 2rem; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-alt { background: var(--light); }
+
+/* PRIORITY HEADER */
+.priority-header {
+  display: flex; align-items: flex-start; gap: 20px; margin-bottom: 40px;
+  padding-bottom: 28px; border-bottom: 1px solid rgba(27,48,87,0.12);
+}
+.priority-num { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 700; color: var(--gold); opacity: 0.3; line-height: 1; flex-shrink: 0; }
+.priority-meta { flex: 1; }
+.priority-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.priority-title { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 34px); font-weight: 700; color: var(--navy); line-height: 1.2; margin-bottom: 10px; }
+.priority-body { font-size: 14px; color: var(--slate); line-height: 1.7; max-width: 700px; }
+
+/* INSIGHT BAND */
+.insight-band {
+  background: var(--navy); color: var(--white); border-radius: 10px;
+  padding: 16px 20px; margin-bottom: 28px; display: flex; align-items: center; gap: 14px;
+}
+.insight-icon { font-size: 20px; flex-shrink: 0; }
+.insight-text { font-size: 13px; line-height: 1.5; }
+.insight-text strong { color: var(--gold2); }
+
+/* CHART GRID */
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.chart-card {
+  background: var(--white); border-radius: 12px; padding: 22px;
+  box-shadow: 0 2px 12px rgba(27,48,87,0.07); border: 1px solid rgba(27,48,87,0.06);
+}
+.chart-card-wide { grid-column: 1 / -1; }
+.chart-label { font-size: 12px; font-weight: 600; color: var(--slate); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.chart-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--navy); margin-bottom: 16px; font-weight: 600; }
+.chart-wrap { position: relative; height: 220px; }
+.chart-wrap-sm { height: 180px; }
+.chart-wrap-lg { height: 280px; }
+
+/* STAT ROW */
+.stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+.stat { background: var(--white); border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 140px; border-left: 3px solid var(--gold); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.stat-val { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--navy); font-weight: 700; }
+.stat-lbl { font-size: 11px; color: var(--slate); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 3px; }
+
+/* RECOMMENDATION CARDS */
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 24px; }
+.rec { background: var(--white); border-radius: 10px; padding: 18px; border-top: 3px solid var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.rec-icon { font-size: 22px; margin-bottom: 8px; }
+.rec-title { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+.rec-body { font-size: 12px; color: var(--slate); line-height: 1.5; }
+
+/* CLOSING */
+.closing {
+  background: var(--navy); color: var(--white); text-align: center; padding: 80px 2rem;
+}
+.closing h2 { font-family: 'Playfair Display', serif; font-size: clamp(24px,4vw,44px); color: var(--gold2); margin-bottom: 16px; }
+.closing p { font-size: 15px; color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto 32px; }
+.closing-footer { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 40px; letter-spacing: 0.06em; }
+
+/* COLOUR ACCENTS PER PRIORITY */
+.p1 .priority-num { color: #C9963E; }
+.p2 .priority-num { color: #4A7C59; }
+.p3 .priority-num { color: #2D4F82; }
+.p4 .priority-num { color: #8B3A52; }
+.p5 .priority-num { color: #5B7FA6; }
+.p6 .priority-num { color: #7A6236; }
+
+.p1 .stat { border-left-color: #C9963E; }
+.p2 .stat { border-left-color: #4A7C59; }
+.p3 .stat { border-left-color: #2D4F82; }
+.p4 .stat { border-left-color: #8B3A52; }
+.p5 .stat { border-left-color: #5B7FA6; }
+.p6 .stat { border-left-color: #7A6236; }
+
+.p1 .rec { border-top-color: #C9963E; }
+.p2 .rec { border-top-color: #4A7C59; }
+.p3 .rec { border-top-color: #2D4F82; }
+.p4 .rec { border-top-color: #8B3A52; }
+.p5 .rec { border-top-color: #5B7FA6; }
+.p6 .rec { border-top-color: #7A6236; }
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .nav-links a { padding: 0 8px; font-size: 10px; }
+  .kpi-row { gap: 10px; }
+  .kpi { min-width: 100px; padding: 14px 16px; }
+}
+
+/* GOAL LINKING */
+.goal-pill {
+  display: inline-flex; align-items: center; gap: 7px; padding: 7px 16px; border-radius: 20px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  margin: 4px 0 18px; border: 1px solid; width: fit-content;
+}
+.goal-evangelise { background: rgba(201,150,62,0.10); color: #C9963E; border-color: rgba(201,150,62,0.4); }
+.goal-prayer     { background: rgba(107,76,154,0.10); color: #6B4C9A; border-color: rgba(107,76,154,0.4); }
+.goal-service    { background: rgba(181,101,29,0.10); color: #B5651D; border-color: rgba(181,101,29,0.4); }
+.goal-comms      { background: rgba(42,122,123,0.10); color: #2A7A7B; border-color: rgba(42,122,123,0.4); }
+
+.vision-quote {
+  background: var(--navy); color: var(--white); border-radius: 14px; padding: 32px 40px;
+  text-align: center; margin-bottom: 40px;
+}
+.vision-quote .label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold2); margin-bottom: 12px; font-weight: 600; }
+.vision-quote .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(16px,2vw,21px); max-width: 760px; margin: 0 auto; line-height: 1.5; }
+.vision-restate {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(240,208,138,0.3); border-radius: 12px;
+  padding: 22px 32px; max-width: 660px; margin: 0 auto 32px;
+}
+.vision-restate .label { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold2); margin-bottom: 8px; font-weight: 600; }
+.vision-restate .quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; }
+
+.together-ribbon {
+  background: var(--navy); border-radius: 14px; padding: 30px 40px; text-align: center; margin-top: 48px;
+}
+.together-label { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 700; }
+.together-quote { font-family: 'Playfair Display', serif; font-style: italic; color: var(--white); font-size: clamp(16px,2vw,20px); max-width: 760px; margin: 0 auto; line-height: 1.5; }
+
+.goals-intro { text-align: center; margin-bottom: 36px; }
+.goals-intro .priority-tag { text-align: center; }
+.goals-intro .priority-title { font-size: clamp(24px,3.4vw,38px); }
+.goals-intro p { font-size: 14px; color: var(--slate); max-width: 680px; margin: 14px auto 0; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">OLOTP Parish · 2026 Survey</div>
+  <div class="nav-links">
+    <a href="#vision">Vision</a>
+    <a href="#s1">Evangelise</a>
+    <a href="#s2">Faith</a>
+    <a href="#s3">Leaders</a>
+    <a href="#s4">Families</a>
+    <a href="#s5">Community</a>
+    <a href="#s6">Stewardship</a>
+    <a href="#demographics">Demographics</a>
+    <a href="#goals-map">Goals</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-cross"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Strategic Leadership Presentation · May 2026</div>
+    <h1>Our Lady of the Plains<br><span>Parish Survey Findings</span></h1>
+    <div class="hero-locations">Lincoln &nbsp;·&nbsp; Rolleston &nbsp;·&nbsp; Leeston &nbsp;·&nbsp; Darfield &nbsp;·&nbsp; Akaroa</div>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">A data-led review of parishioner life, faith, and belonging — translated into six strategic priorities for parish leadership, in line with OLOTP Parish goals.</p>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-val">431</div><div class="kpi-lbl">Respondents</div></div>
+      <div class="kpi"><div class="kpi-val">86%</div><div class="kpi-lbl">Mass Last Sunday</div></div>
+      <div class="kpi"><div class="kpi-val">30%</div><div class="kpi-lbl">Invited Someone</div></div>
+      <div class="kpi"><div class="kpi-val">52%</div><div class="kpi-lbl">Daily Devotion</div></div>
+      <div class="kpi"><div class="kpi-val">53%</div><div class="kpi-lbl">No Volunteering</div></div>
+    </div>
+    <div class="hero-date">Selwyn District, New Zealand &nbsp;·&nbsp; Survey Date: 17 May 2026</div>
+  </div>
+  <div class="scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     OUR VISION & GOALS
+══════════════════════════════════════════════════════════════ -->
+<section class="section" id="vision">
+  <div class="section-inner">
+    <div class="goals-intro">
+      <div class="priority-tag">Our Foundation</div>
+      <div class="priority-title">Our Parish Vision &amp; Goals</div>
+      <p>Every strategic priority on this page is anchored to this vision and to one of our four parish goals — so the data leads somewhere we already agree on.</p>
+    </div>
+
+    <div class="vision-quote">
+      <div class="label">Vision</div>
+      <div class="quote">&ldquo;We are a welcoming community of disciples, growing in faith, serving one another and the world.&rdquo;</div>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec" style="border-top-color:#C9963E; text-align:center;">
+        <div class="rec-icon">✝️</div>
+        <div class="rec-title">Evangelise</div>
+        <div class="rec-body">All parishioners are offered opportunities for a deeper relationship with Jesus Christ, to be living disciples who spread the teachings of our Lord.</div>
+      </div>
+      <div class="rec" style="border-top-color:#2A7A7B; text-align:center;">
+        <div class="rec-icon">💬</div>
+        <div class="rec-title">Communication &amp; Engagement</div>
+        <div class="rec-body">Our parish communicates openly so parishioners feel welcome and a genuine sense of belonging as part of our community.</div>
+      </div>
+      <div class="rec" style="border-top-color:#B5651D; text-align:center;">
+        <div class="rec-icon">🤝</div>
+        <div class="rec-title">Service</div>
+        <div class="rec-body">We strive to serve our parish and community to be true disciples of Jesus Christ — our collective service builds a strong community.</div>
+      </div>
+      <div class="rec" style="border-top-color:#6B4C9A; text-align:center;">
+        <div class="rec-icon">🙏</div>
+        <div class="rec-title">Prayer &amp; Holiness</div>
+        <div class="rec-body">All parishioners are supported to participate in prayer and the sacraments in order to grow in faith.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRIORITY 1 — GROW THROUGH EVANGELISATION
+══════════════════════════════════════════════════════════════ -->
+<section class="section p1" id="s1">
+  <div class="section-inner">
+    <div class="priority-header">
+      <div class="priority-num">01</div>
+      <div class="priority-meta">
+        <div class="priority-tag">Strategic Priority One</div>
+        <div class="priority-title">Grow Through Evangelisation</div>
+        <div class="goal-pill goal-evangelise">✝ Goal · Evangelise</div>
+        <p class="priority-body">A third of our parish has arrived within the last decade, many coming from other parishes rather than as new Catholics. This signals healthy movement but limited genuine outreach. Only 30% of respondents invited someone to Mass last month — a gap between our personal faith and our public witness. Growing the parish requires intentional, relationship-driven invitation, better newcomer welcome pathways, and embedding a culture of everyday evangelisation across all age groups and cultures.</p>
+      </div>
+    </div>
+
+    <div class="insight-band">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Key insight:</strong> 70% of respondents did NOT invite anyone to Mass last month. Yet 86% attended Mass themselves. The faith is present — the invitation habit is not yet formed.</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">30%</div><div class="stat-lbl">Invited someone this month</div></div>
+      <div class="stat"><div class="stat-val">33%</div><div class="stat-lbl">Attending < 2 years</div></div>
+      <div class="stat"><div class="stat-val">55%</div><div class="stat-lbl">Came from another parish</div></div>
+      <div class="stat"><div class="stat-val">5%</div><div class="stat-lbl">First-time Catholics</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">Q1 · Attendance</div>
+        <div class="chart-title">How Long Attending OLOTP</div>
+        <div class="chart-wrap"><canvas id="c_attend"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q2 · New Members</div>
+        <div class="chart-title">Why New Members Joined (< 2 yrs)</div>
+        <div class="chart-wrap"><canvas id="c_new"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q6 · Outreach</div>
+        <div class="chart-title">Invited Someone to Mass This Month</div>
+        <div class="chart-wrap chart-wrap-sm"><canvas id="c_invite"></canvas></div>
+      </div>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec"><div class="rec-icon">🤝</div><div class="rec-title">Launch a Welcome Team</div><div class="rec-body">Assign trained greeters to each Mass to warmly welcome newcomers and connect them to parish life within their first three visits.</div></div>
+      <div class="rec"><div class="rec-icon">📣</div><div class="rec-title">Invitation Culture Campaign</div><div class="rec-body">Encourage every parishioner to invite one person per month. Share simple conversation starters through the bulletin and social media.</div></div>
+      <div class="rec"><div class="rec-icon">🌐</div><div class="rec-title">Strengthen Digital Presence</div><div class="rec-body">Update the parish website and social channels to be genuinely inviting to those exploring faith for the first time.</div></div>
+      <div class="rec"><div class="rec-icon">🗺️</div><div class="rec-title">Map Newcomer Journey</div><div class="rec-body">Create a clear 90-day pathway from first visit to connected parishioner, including a personal follow-up call within two weeks.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRIORITY 2 — DEEPEN FAITH FORMATION
+══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt p2" id="s2">
+  <div class="section-inner">
+    <div class="priority-header">
+      <div class="priority-num">02</div>
+      <div class="priority-meta">
+        <div class="priority-tag">Strategic Priority Two</div>
+        <div class="priority-title">Deepen Faith Formation</div>
+        <div class="goal-pill goal-prayer">🙏 Goal · Prayer &amp; Holiness</div>
+        <p class="priority-body">The spiritual depth of our parish is genuinely encouraging — 52% pray daily or more, and the vast majority affirm that faith shapes their lives. However, participation in formal faith formation programmes such as Alpha and OCIA remains low at only 8%, and 52% reported no parish activity beyond attending Mass. There is a significant opportunity to channel existing personal devotion into structured discipleship pathways that deepen faith beyond Sunday and build a culture of lifelong formation.</p>
+      </div>
+    </div>
+
+    <div class="insight-band">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Key insight:</strong> <strong>52% pray daily or more</strong> — yet only <strong>8% participate in faith formation programmes</strong>. Personal devotion is strong; structured formation is the missing bridge.</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">52%</div><div class="stat-lbl">Pray daily or more</div></div>
+      <div class="stat"><div class="stat-val">48%</div><div class="stat-lbl">Faith shapes life (score 8–9)</div></div>
+      <div class="stat"><div class="stat-val">8%</div><div class="stat-lbl">In faith formation programme</div></div>
+      <div class="stat"><div class="stat-val">86%</div><div class="stat-lbl">Received Reconciliation</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">Q13 · Devotion</div>
+        <div class="chart-title">Private Devotion Frequency</div>
+        <div class="chart-wrap"><canvas id="c_devote"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q9 · Faith</div>
+        <div class="chart-title">Catholic Faith Shapes My Life (1–9 scale)</div>
+        <div class="chart-wrap"><canvas id="c_faith"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q8 · Sacraments</div>
+        <div class="chart-title">Sacraments Received</div>
+        <div class="chart-wrap"><canvas id="c_sac"></canvas></div>
+      </div>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec"><div class="rec-icon">📖</div><div class="rec-title">Expand Alpha & OCIA</div><div class="rec-body">Offer Alpha and OCIA at least twice per year, at multiple times to suit working families and evening availability.</div></div>
+      <div class="rec"><div class="rec-icon">🙏</div><div class="rec-title">Parish Prayer Network</div><div class="rec-body">Formalise a prayer chain and intercessory group that connects private devotion to communal prayer and parish intentions.</div></div>
+      <div class="rec"><div class="rec-icon">📅</div><div class="rec-title">Monthly Formation Evenings</div><div class="rec-body">Host accessible, low-barrier monthly evenings on Catholic themes — Scripture, social teaching, family life — open to all parishioners.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRIORITY 3 — DEVELOP FUTURE PARISH LEADERS
+══════════════════════════════════════════════════════════════ -->
+<section class="section p3" id="s3">
+  <div class="section-inner">
+    <div class="priority-header">
+      <div class="priority-num">03</div>
+      <div class="priority-meta">
+        <div class="priority-tag">Strategic Priority Three</div>
+        <div class="priority-title">Develop Future Parish Leaders</div>
+        <div class="goal-pill goal-service">🤝 Goal · Service</div>
+        <p class="priority-body">Over half of respondents reported zero volunteering last week, and only 13% serve at Mass in roles such as choir or reader. The parish profile skews heavily older — 41% of respondents are over 70 — raising critical questions about leadership succession and the sustainability of current ministries. Identifying, forming, and empowering the next generation of parish leaders is not optional; it is urgent. We must create clear pathways from active parishioner to servant leader, particularly for those aged 31–50 who are most likely to carry the parish forward.</p>
+      </div>
+    </div>
+
+    <div class="insight-band">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Key insight:</strong> <strong>41% of respondents are aged 71+</strong>. Only <strong>12% are aged 16–40</strong>. Without intentional leadership development now, critical ministries face succession risk within five years.</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">53%</div><div class="stat-lbl">Zero volunteer hours last week</div></div>
+      <div class="stat"><div class="stat-val">27%</div><div class="stat-lbl">Volunteered 2+ hours</div></div>
+      <div class="stat"><div class="stat-val">13%</div><div class="stat-lbl">Serve at Mass</div></div>
+      <div class="stat"><div class="stat-val">11%</div><div class="stat-lbl">Parish committees/service</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">Q14 · Volunteering</div>
+        <div class="chart-title">Volunteer Hours Last Week</div>
+        <div class="chart-wrap"><canvas id="c_vol"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q3 · Activities</div>
+        <div class="chart-title">Parish Activity Participation</div>
+        <div class="chart-wrap"><canvas id="c_act"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Age</div>
+        <div class="chart-title">Age Distribution of Respondents</div>
+        <div class="chart-wrap"><canvas id="c_age"></canvas></div>
+      </div>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec"><div class="rec-icon">🌱</div><div class="rec-title">Leadership Pathway Programme</div><div class="rec-body">Create a structured 12-month programme identifying and forming 5–10 emerging parish leaders each year from the 31–50 age group.</div></div>
+      <div class="rec"><div class="rec-icon">🤲</div><div class="rec-title">Ministry Fair</div><div class="rec-body">Host an annual Ministry Fair after Mass to showcase every volunteer role, making it easy for parishioners to find where their gifts fit.</div></div>
+      <div class="rec"><div class="rec-icon">👏</div><div class="rec-title">Celebrate Volunteers</div><div class="rec-body">Publicly acknowledge and celebrate parish volunteers regularly — this affirms their contribution and inspires others to step forward.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRIORITY 4 — INVEST IN FAMILIES AND YOUNG PEOPLE
+══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt p4" id="s4">
+  <div class="section-inner">
+    <div class="priority-header">
+      <div class="priority-num">04</div>
+      <div class="priority-meta">
+        <div class="priority-tag">Strategic Priority Four</div>
+        <div class="priority-title">Invest in Families and Young People</div>
+        <div class="goal-pill goal-comms">💬 Goal · Communication &amp; Engagement</div>
+        <p class="priority-body">Young people aged 16–30 make up only 7% of survey respondents — a stark underrepresentation that reflects a broader challenge facing the Church. Families with school-aged children are present and engaged, yet the parish-school-family partnership needs intentional strengthening. Faith formation for children and young adults must be vibrant, relational, and relevant if we are to retain the next generation. The survey reveals that families are in our pews — the question is whether we are meeting them where they are.</p>
+      </div>
+    </div>
+
+    <div class="insight-band">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Key insight:</strong> Only <strong>7% of respondents are aged 16–30</strong>. This is the generation the Church must reach intentionally — through schools, families, and youth-specific programmes that meet them on their terms.</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">7%</div><div class="stat-lbl">Respondents aged 16–30</div></div>
+      <div class="stat"><div class="stat-val">4</div><div class="stat-lbl">Respondents aged 31–40</div></div>
+      <div class="stat"><div class="stat-val">6%</div><div class="stat-lbl">Prayer/Bible study groups</div></div>
+      <div class="stat"><div class="stat-val">55%</div><div class="stat-lbl">Tertiary educated</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Age</div>
+        <div class="chart-title">Youth vs Established Parishioners</div>
+        <div class="chart-wrap"><canvas id="c_age2"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q22 · Education</div>
+        <div class="chart-title">Highest Qualification Attained</div>
+        <div class="chart-wrap"><canvas id="c_edu"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q12 · Mass Attendance</div>
+        <div class="chart-title">When Last Attended Sunday Mass</div>
+        <div class="chart-wrap"><canvas id="c_mass"></canvas></div>
+      </div>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec"><div class="rec-icon">👨‍👩‍👧</div><div class="rec-title">Family Faith Hub</div><div class="rec-body">Create a dedicated family formation programme — monthly sessions for parents and children together, blending faith and community.</div></div>
+      <div class="rec"><div class="rec-icon">🎯</div><div class="rec-title">Youth Group Revival</div><div class="rec-body">Relaunch or strengthen a vibrant youth group for 15–25 year olds, with peer-led activities that connect faith with real life.</div></div>
+      <div class="rec"><div class="rec-icon">🏫</div><div class="rec-title">School Partnership</div><div class="rec-body">Strengthen the relationship with local Catholic schools through joint events, sacramental preparation, and shared faith experiences.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRIORITY 5 — BUILD COMMUNITY AND BELONGING
+══════════════════════════════════════════════════════════════ -->
+<section class="section p5" id="s5">
+  <div class="section-inner">
+    <div class="priority-header">
+      <div class="priority-num">05</div>
+      <div class="priority-meta">
+        <div class="priority-tag">Strategic Priority Five</div>
+        <div class="priority-title">Build Community and Belonging</div>
+        <div class="goal-pill goal-comms">💬 Goal · Communication &amp; Engagement</div>
+        <p class="priority-body">The social connection scores are encouraging — over 50% of parishioners report having a good friend at OLOTP and knowing people they can chat with after Mass. However, spiritual connection is weaker: only 19% report that someone asked about their spiritual wellbeing this month, and only 22% asked about someone else's. Our parish is ethnically diverse — NZ European, Filipino, Indian, and many others — and this richness is a gift that requires intentional cultivation to become a genuine source of belonging for all.</p>
+      </div>
+    </div>
+
+    <div class="insight-band">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Key insight:</strong> Social connection is moderate but <strong>spiritual connection is weak</strong> — only <strong>19% had someone ask about their spiritual wellbeing</strong> this month. Parish community must go deeper than friendship into genuine pastoral care.</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">19%</div><div class="stat-lbl">Someone checked wellbeing</div></div>
+      <div class="stat"><div class="stat-val">22%</div><div class="stat-lbl">Asked others' wellbeing</div></div>
+      <div class="stat"><div class="stat-val">51%</div><div class="stat-lbl">Have a good friend here</div></div>
+      <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">Ethnic groups represented</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">Q6/7/8 · Spiritual Engagement</div>
+        <div class="chart-title">Spiritual Engagement — Yes vs No (past month)</div>
+        <div class="chart-wrap chart-wrap-lg"><canvas id="c_spirit"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Ethnicity</div>
+        <div class="chart-title">Ethnic Diversity of Parish</div>
+        <div class="chart-wrap"><canvas id="c_eth"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Location</div>
+        <div class="chart-title">Where Parishioners Live</div>
+        <div class="chart-wrap"><canvas id="c_loc"></canvas></div>
+      </div>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec"><div class="rec-icon">☕</div><div class="rec-title">Morning Tea After Every Mass</div><div class="rec-body">Simple, consistent hospitality after every Sunday Mass creates the regular contact point that deepens casual connections into genuine friendships.</div></div>
+      <div class="rec"><div class="rec-icon">🌍</div><div class="rec-title">Multicultural Celebrations</div><div class="rec-body">Celebrate the cultural diversity of the parish through dedicated feast days, shared meals, and culturally representative liturgy throughout the year.</div></div>
+      <div class="rec"><div class="rec-icon">💬</div><div class="rec-title">Pastoral Visitation</div><div class="rec-body">Train and deploy a small team of pastoral visitors to contact parishioners who haven't been seen recently, prioritising the elderly and isolated.</div></div>
+      <div class="rec"><div class="rec-icon">🏘️</div><div class="rec-title">Small Groups Network</div><div class="rec-body">Launch neighbourhood small groups of 6–10 parishioners meeting monthly — the most proven model for deep belonging in large parishes.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRIORITY 6 — STRENGTHEN STEWARDSHIP
+══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt p6" id="s6">
+  <div class="section-inner">
+    <div class="priority-header">
+      <div class="priority-num">06</div>
+      <div class="priority-meta">
+        <div class="priority-tag">Strategic Priority Six · Additional</div>
+        <div class="priority-title">Strengthen Stewardship of Time, Talent and Treasure</div>
+        <div class="goal-pill goal-service">🤝 Goal · Service</div>
+        <p class="priority-body">Stewardship is the practical expression of discipleship. The survey reveals that 24% of respondents gave nothing financially last week, while 53% volunteered no time. At the same time, the parish serves a community with moderate to strong household incomes — 57% earn above $40,000 — and a highly educated membership, with 55% holding tertiary qualifications. There is real capacity here that, when connected to a clear vision and personal conviction, can be mobilised to sustain and grow parish life for generations to come.</p>
+      </div>
+    </div>
+
+    <div class="insight-band">
+      <div class="insight-icon">💡</div>
+      <div class="insight-text"><strong>Key insight:</strong> <strong>24% gave nothing last week</strong> and <strong>53% volunteered no time</strong>. Yet 57% have household incomes above $40k and 55% hold tertiary qualifications. The capacity for greater stewardship is present — the invitation and vision must match it.</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">24%</div><div class="stat-lbl">Gave nothing last week</div></div>
+      <div class="stat"><div class="stat-val">21%</div><div class="stat-lbl">Gave $1–$5</div></div>
+      <div class="stat"><div class="stat-val">20%</div><div class="stat-lbl">Gave $11–$20+</div></div>
+      <div class="stat"><div class="stat-val">57%</div><div class="stat-lbl">HH income above $40k</div></div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">Q4 · Giving</div>
+        <div class="chart-title">Weekly Giving to OLOTP Parish</div>
+        <div class="chart-wrap"><canvas id="c_give"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q23 · Income</div>
+        <div class="chart-title">Household Income Before Tax</div>
+        <div class="chart-wrap"><canvas id="c_inc"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Q24 · Employment</div>
+        <div class="chart-title">Mass Attended Today — By Service</div>
+        <div class="chart-wrap"><canvas id="c_svc"></canvas></div>
+      </div>
+    </div>
+
+    <div class="rec-grid">
+      <div class="rec"><div class="rec-icon">💝</div><div class="rec-title">Stewardship Weekend</div><div class="rec-body">Host an annual Stewardship Weekend homily series connecting personal gifts of time, talent, and treasure to the parish mission.</div></div>
+      <div class="rec"><div class="rec-icon">💳</div><div class="rec-title">Regular Giving Programme</div><div class="rec-body">Invite parishioners to set up regular automatic giving — removing the weekly decision and providing the parish with stable, predictable income.</div></div>
+      <div class="rec"><div class="rec-icon">📊</div><div class="rec-title">Annual Financial Transparency Report</div><div class="rec-body">Share a simple annual summary of parish income and expenditure. Transparency builds trust and demonstrates faithful use of the community's generosity.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PARISH DEMOGRAPHICS
+══════════════════════════════════════════════════════════════ -->
+<section class="section" id="demographics">
+  <div class="section-inner">
+    <div class="goals-intro">
+      <div class="priority-tag">Parish Demographics</div>
+      <div class="priority-title" style="font-size:clamp(22px,3.2vw,32px);">Parish Community Profile — Where We Are</div>
+      <p>A snapshot of who makes up Our Lady of the Plains Parish today — age, background, household income, and everyday participation beyond Sunday Mass.</p>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Age</div>
+        <div class="chart-title">Age Distribution of Respondents</div>
+        <div class="chart-wrap"><canvas id="c_demo_age"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Gender</div>
+        <div class="chart-title">Gender</div>
+        <div class="chart-wrap chart-wrap-sm"><canvas id="c_demo_gender"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Ethnicity</div>
+        <div class="chart-title">Ethnicity</div>
+        <div class="chart-wrap"><canvas id="c_demo_eth"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Income</div>
+        <div class="chart-title">Household Income (Before Tax)</div>
+        <div class="chart-wrap"><canvas id="c_demo_income"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-label">Demographics · Faith</div>
+        <div class="chart-title">My Life &amp; Faith Importance (1–9 Scale)</div>
+        <div class="chart-wrap"><canvas id="c_demo_faith"></canvas></div>
+      </div>
+      <div class="chart-card chart-card-wide">
+        <div class="chart-label">Demographics · Participation</div>
+        <div class="chart-title">Parish Activities Beyond Mass</div>
+        <div class="chart-wrap"><canvas id="c_demo_activities"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HOW THE PRIORITIES CONNECT TO OUR GOALS
+══════════════════════════════════════════════════════════════ -->
+<section class="section section-alt" id="goals-map">
+  <div class="section-inner">
+    <div class="goals-intro">
+      <div class="priority-tag">The Big Picture</div>
+      <div class="priority-title" style="font-size:clamp(22px,3.2vw,32px);">How the Priorities Connect to Our Goals</div>
+      <p>Six survey-led priorities, mapped onto the four goals that already shape parish life.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec" style="border-top-color:#C9963E;">
+        <div class="rec-icon">✝️</div>
+        <div class="rec-title">Evangelise</div>
+        <div class="rec-body">01 &nbsp;·&nbsp; Grow Through Evangelisation</div>
+      </div>
+      <div class="rec" style="border-top-color:#6B4C9A;">
+        <div class="rec-icon">🙏</div>
+        <div class="rec-title">Prayer &amp; Holiness</div>
+        <div class="rec-body">02 &nbsp;·&nbsp; Deepen Faith Formation</div>
+      </div>
+      <div class="rec" style="border-top-color:#B5651D;">
+        <div class="rec-icon">🤝</div>
+        <div class="rec-title">Service</div>
+        <div class="rec-body">03 &nbsp;·&nbsp; Develop Future Parish Leaders<br>06 &nbsp;·&nbsp; Strengthen Stewardship</div>
+      </div>
+      <div class="rec" style="border-top-color:#2A7A7B;">
+        <div class="rec-icon">💬</div>
+        <div class="rec-title">Communication &amp; Engagement</div>
+        <div class="rec-body">04 &nbsp;·&nbsp; Invest in Families &amp; Young People<br>05 &nbsp;·&nbsp; Build Community &amp; Belonging</div>
+      </div>
+    </div>
+
+    <div class="together-ribbon">
+      <div class="together-label">Together</div>
+      <div class="together-quote">&ldquo;We are a welcoming community of disciples, growing in faith, serving one another and the world.&rdquo;</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <h2>Called to Go Deeper</h2>
+  <p>These six priorities are not separate programmes — they are one integrated vision: a parish where every person is known, formed, invited, and sent. The survey has given us the data. Now the mission calls us to act.</p>
+  <div class="kpi-row" style="justify-content:center; margin-top:0;">
+    <div class="kpi"><div class="kpi-val">431</div><div class="kpi-lbl">Voices Heard</div></div>
+    <div class="kpi"><div class="kpi-val">6</div><div class="kpi-lbl">Strategic Priorities</div></div>
+    <div class="kpi"><div class="kpi-val">4</div><div class="kpi-lbl">Parish Goals</div></div>
+    <div class="kpi"><div class="kpi-val">1</div><div class="kpi-lbl">Parish Mission</div></div>
+  </div>
+  <div class="closing-footer">Our Lady of the Plains Parish, Selwyn District, New Zealand &nbsp;·&nbsp; 2026 Strategic Plan. Survey Date: 17 May 2026. Data is confidential and for parish planning purposes only.</div>
+</section>
+
+<script>
+const NAVY='#1B3057', GOLD='#C9963E', SAGE='#4A7C59', ROSE='#8B3A52', SLATE='#4A5568';
+const BLUE='#2D4F82', LBLUE='#5B7FA6', TEAL='#2A7A7B', AMBER='#B07D2E';
+const COLORS=[NAVY,GOLD,SAGE,ROSE,BLUE,LBLUE,TEAL,AMBER,'#7A6236','#888'];
+
+Chart.defaults.font.family="'Inter',sans-serif";
+Chart.defaults.font.size=11;
+Chart.defaults.color=SLATE;
+
+function bar(id,labels,data,colors,opts={}){
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors||NAVY,borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},...(opts.plugins||{})},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:30}},y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{stepSize:opts.step||undefined}}},...(opts.scales||{})}});
+}
+function hbar(id,labels,data,color){
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  new Chart(ctx,{type:'bar',data:{labels,datasets:[{data,backgroundColor:color||NAVY,borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(0,0,0,0.05)'}},y:{grid:{display:false}}}}});
+}
+function donut(id,labels,data,colors){
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors||COLORS,borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:8,font:{size:10}}}}}});
+}
+function grouped(id,labels,datasets){
+  const ctx=document.getElementById(id);
+  if(!ctx)return;
+  new Chart(ctx,{type:'bar',data:{labels,datasets},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:8,font:{size:10}}}},
+      scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(0,0,0,0.05)'}}}}});
+}
+
+// ── PRIORITY 1 ──
+bar('c_attend',['< 2 yrs','2–10 yrs','11–20 yrs','20–30 yrs','30+ yrs','Visitor'],
+    [161,178,53,20,47,22],[GOLD,NAVY,SAGE,ROSE,BLUE,SLATE]);
+
+donut('c_new',['From another NZ parish','From overseas parish','Returning Catholics','None of above'],
+      [61,21,13,15],[NAVY,GOLD,SAGE,ROSE]);
+
+donut('c_invite',['Invited someone','Did not invite'],
+      [122,281],[SAGE,ROSE]);
+
+// ── PRIORITY 2 ──
+bar('c_devote',['<Once/wk','Once/wk','2–3×/wk','4–6×/wk','Once/day','Daily+'],
+    [47,74,46,27,142,70],[LBLUE,LBLUE,BLUE,BLUE,NAVY,GOLD]);
+
+bar('c_faith',['1','2','3','4','5','6','7','8','9'],
+    [10,2,9,7,23,38,55,67,195],
+    ['#ddd','#ddd','#ddd','#ccc','#aaa',LBLUE,BLUE,NAVY,GOLD]);
+
+hbar('c_sac',['Baptism','Reconciliation','1st Communion','Confirmation','Marriage','Anointing','None'],
+     [380,363,369,360,319,61,13],GOLD);
+
+// ── PRIORITY 3 ──
+donut('c_vol',['None','Up to 2 hrs','2–5 hrs','5+ hrs'],
+      [209,108,41,39],[ROSE,GOLD,BLUE,SAGE]);
+
+hbar('c_act',['None','Service','Other','Faith Prog','Prayer/Bible','Fellowship','Mass Prep','Community Svc'],
+     [183,47,31,29,23,19,12,6],NAVY);
+
+bar('c_age',['16–20','21–30','31–40','41–50','51–60','71–80','81+'],
+    [2,1,4,7,7,10,7],
+    [SAGE,SAGE,GOLD,GOLD,BLUE,ROSE,ROSE]);
+
+// ── PRIORITY 4 ──
+donut('c_age2',['16–30 (Young)','31–50 (Mid)','51–70 (Senior)','71+ (Elder)'],
+      [3,11,14,17],[SAGE,GOLD,BLUE,ROSE]);
+
+donut('c_edu',['Tertiary','High School','< High School','Trade/Vocational'],
+      [21,10,4,3],[NAVY,GOLD,ROSE,SAGE]);
+
+donut('c_mass',['Last Sunday','Two weeks ago','One month ago','A few months ago','> a year ago'],
+      [341,40,10,5,1],[NAVY,GOLD,SAGE,ROSE,SLATE]);
+
+// ── PRIORITY 5 ──
+grouped('c_spirit',
+  ['Invited to Mass','Asked wellbeing\n(others asked you)','Asked others\' wellbeing'],
+  [
+    {label:'Yes',data:[122,78,87],backgroundColor:SAGE,borderRadius:4},
+    {label:'No', data:[281,322,316],backgroundColor:'#E5E9F0',borderRadius:4}
+  ]);
+
+donut('c_eth',['NZ European','Filipino','Other','Indian'],
+      [22,12,4,1],[NAVY,GOLD,SAGE,ROSE]);
+
+donut('c_loc',['Rolleston','Darfield','Other','Lincoln','Southbridge'],
+      [24,5,5,2,2],[NAVY,GOLD,SAGE,ROSE,LBLUE]);
+
+// ── PRIORITY 6 ──
+donut('c_give',['None','$1–$5','$6–$10','$11–$20','$21–$50'],
+      [96,82,74,78,62],[ROSE,SLATE,GOLD,BLUE,SAGE]);
+
+bar('c_inc',['≤$40k','$40–$80k','$80–$100k','$100–$150k','$150k+','Unknown'],
+    [5,17,4,4,3,4],[ROSE,NAVY,GOLD,GOLD,SAGE,SLATE]);
+
+bar('c_svc',['Rolleston\nSun 11am','Darfield\nSun 9am','Leeston\nSun 10am','Lincoln\nSat','Lincoln\nSun'],
+    [29,6,2,1,1],[NAVY,GOLD,SAGE,ROSE,LBLUE]);
+
+// ── PARISH DEMOGRAPHICS ──
+bar('c_demo_age',['16–20','21–30','31–40','41–50','51–60','71–80','81+'],
+    [5,8,20,28,21,12,6],[SAGE,GOLD,BLUE,NAVY,LBLUE,ROSE,SLATE]);
+
+donut('c_demo_gender',['Female','Male'],[60,40],[ROSE,BLUE]);
+
+donut('c_demo_eth',['NZ European','Filipino','Other','Indian','Maori','Pacific/Asian Other'],
+      [49,26,14,9,1,1],[NAVY,GOLD,SAGE,ROSE,BLUE,SLATE]);
+
+bar('c_demo_income',['$40k\nor less','$40k–\n$80k','$80k–\n$100k','$100k–\n$150k','$150k\nor more',"Don't\nknow"],
+    [12,23,10,22,21,11],[ROSE,NAVY,GOLD,GOLD,SAGE,SLATE]);
+
+bar('c_demo_faith',['1','2','3','4','5','6','7','8','9'],
+    [2,2,1,2,6,9,15,16,48],
+    ['#ddd','#ddd','#ddd','#ccc','#aaa',LBLUE,BLUE,NAVY,GOLD]);
+
+hbar('c_demo_activities',
+    ['Fellowship / leisure group','Faith formation (Alpha, OCIA)','Service to the parish','Preparing/serving at Mass',
+     "Community service / social justice",'None of the above','Other','Prayer or Bible study group'],
+    [5,8,13,3,2,52,9,7],TEAL);
+</script>
+</body>
+</html>
